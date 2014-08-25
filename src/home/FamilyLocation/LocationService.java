@@ -29,7 +29,6 @@ public class LocationService extends Service {
     private static final long LOCATION_INTERVAL = 1000000; // in Milliseconds
     final String TAG = "LocationService";
 
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -138,25 +137,6 @@ public class LocationService extends Service {
             mLastLocation.set(location);
             new LocatorUpdater().execute(location);
         }
-
-        public void sendCoordinates(Location location) {
-
-            HttpResponse response = null;
-            try {
-
-                HttpClient client = new DefaultHttpClient();
-                String URL = String.format("http://markul.net:55755/api/checkin/sdf3g1d/%1$s/%2$s/",
-                        location.getLongitude(), location.getLatitude());
-                HttpGet httpget = new HttpGet();
-                httpget.setURI(new URI(URL));
-                response = client.execute(httpget);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-            } catch (IOException e) {
-            }
-        }
-
 
         @Override
         public void onProviderDisabled(String provider) {
